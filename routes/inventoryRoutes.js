@@ -1,11 +1,11 @@
 const express = require("express");
-const app = express();
-// const router = express.Router();
+// const app = express();
+const router = express.Router();
 const Inventory = require("../models/inventoryModal");
 
 
 // Get all inventory items
-app.get("/inventories", async (req, res) => {
+router.get("/inventories", async (req, res) => {
   try {
     const inventoryItems = await Inventory.find();
     res.json(inventoryItems);
@@ -18,7 +18,7 @@ app.get("/inventories", async (req, res) => {
 
 
 // Create a new inventory item
-app.post("/inventories", async (req, res) => {
+router.post("/inventories", async (req, res) => {
   const inventoryItem = new Inventory({
     productName: req.body.productName,
     category: req.body.category,
@@ -37,7 +37,7 @@ app.post("/inventories", async (req, res) => {
 
 
 // Delete an inventory item
-app.delete("/inventories/:id", async (req, res) => {
+router.delete("/inventories/:id", async (req, res) => {
   try {
     const deletedItem = await Inventory.findByIdAndDelete(req.params.id);
     if (!deletedItem) {
@@ -53,7 +53,7 @@ app.delete("/inventories/:id", async (req, res) => {
 
 
 // Update an inventory item
-app.put("/inventories/:id", async (req, res) => {
+router.put("/inventories/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const updatedItem = await Inventory.findByIdAndUpdate(id, req.body, { new: true });
@@ -66,6 +66,6 @@ app.put("/inventories/:id", async (req, res) => {
   }
 });
 
-module.exports = app;
+module.exports = router;
 
 
